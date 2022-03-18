@@ -1,0 +1,149 @@
+body{
+    background-image: url("images/south-park-classroom.jpg");
+}
+
+div.titrePage, div.boutonMainMenu, div.enTeteResult, div.todo-board, div.post-it{
+    text-align: center;
+    margin: auto;
+}
+
+div.liste-elements{
+    align-content: center;
+}
+
+
+div.liste-elements{
+    opacity: 0.5;
+    color: gray;
+}
+
+div.liste-elements:hover{
+    opacity: 1;
+}
+
+div.taskDescription {
+    display: none
+}
+
+div.img-post-it{
+    opacity: 0.9;
+}
+
+#display-date{
+    font-size: 70px;
+    font-family: "LittleBird";
+    color: black;
+    text-align: center;
+    text-shadow: white 0.1em 0.1em 0.2em
+}
+
+#display-time{
+    font-family: "ChangeTomorrowToday";
+    font-size: 40px;
+    color: whitesmoke;
+}
+
+div.display-mode, div.liste-elements{
+    margin-top: auto;
+}
+
+div.task-list{
+    height: 800px;
+    overflow: auto;
+}
+
+div.tasks{
+    padding: 10px;
+    height: 75vh;
+    overflow: auto;
+}
+
+div.todo-board{
+    border: 5px solid black;
+}
+
+div.post-it-part{
+    padding-right: 20px;
+}
+
+div.post-it {
+    border: 1px solid rgb(209, 208, 208);
+    background-color: rgb(239, 248, 157);
+}
+
+input.post-it-input{
+    background-color: rgb(239, 248, 157);
+    font-family: "Reindeer";
+    font-size: 25px;
+    text-align: left;
+}
+
+p.post-it-title {
+    font-family: "AlexBrush";
+    font-size: 60px;
+}
+
+p.post-it-corps{
+    font-family: "AlexBrush";
+    font-size: 40px;
+    text-align: left;
+}
+
+div.todo-board-border{
+    background-image: url("images/fond-bois.jpg");
+    padding: 10px;
+}
+
+div.todo-board {
+    background-image: url("images/Background_blackboard.jpg");
+}
+
+span.Todo-title{
+    font-family: "ChangeTomorrowToday";
+    font-size: 50px;
+    color: whitesmoke;
+}
+
+@font-face {
+    font-family: "AlexBrush";
+    src: url("fonts/AlexBrush-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "LittleBird";
+    src: url("fonts/LittleBird.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Reindeer";
+    src: url("fonts/Reindeer.ttf") format("truetype");
+}
+
+
+@font-face {
+    font-family: "ChangeTomorrowToday";
+    src: url("fonts/ChangeTomorrowToday.ttf") format("truetype");
+} 
+
+
+
+#todo-elements-react{
+    margin: auto;
+    align-content: center;
+    color: aliceblue;
+}
+
+Div.titrePageReact > h1{
+    font-size: 70px;
+    font-family: LittleBird;
+    color: black;
+    text-align: center;
+    text-shadow: white 0.1em 0.1em 0.2em
+}
+
+Div.titrePageReact > span{
+    font-size: 30px;
+    color: purple;
+    text-align: center;
+    text-shadow: white 0.1em 0.1em 0.2em
+}

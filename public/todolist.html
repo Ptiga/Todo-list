@@ -1,0 +1,177 @@
+<html>
+
+<head>
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap-theme.min.css"
+        integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <link href="style_todolist.css" rel="stylesheet" />
+
+    <!-- Traduire html en JS -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <!-- Import de la librairie React -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+
+</head>
+
+<body>
+
+    <div class="container" id="root">
+
+        <div class="row titrePageReact">
+            <h1>MY (UGLY) TO DO LIST... en REACT</h1>
+            <Span>Ca n'est pas joli, ça n'est pas fonctionnel mais c'est un must have...</span>
+            <br />
+            <Span>... ou pas !</span>
+        </div>
+        <br />
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-6 boutonMainMenu">
+            <form method="get" formaction="/get-all-tasks-json" enctype="application/x-www-form-urlencoded">
+                <input id="btn-display-all" class="btn btn-default" type="submit" value="Show all tasks">
+            </form>
+        </div>
+        <div class="col-6 boutonMainMenu">
+            <form method="get" action="/get-remaining-tasks-json" enctype="application/x-www-form-urlencoded">
+                <input id="btn-display-remlaining" class="btn btn-default" type="submit" value="Show remaining tasks" disabled="disabled">
+            </form>
+        </div>
+    </div>
+    <div class="todo-board-react">
+        <div id="todo-elements-react" class="row todo-list-react">
+            <div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- l'inscription text/babel va permettre de traduire le html en JS -->
+    <script type="text/babel">
+
+        // taskProcessed = document.getElementById("btn-display-all")
+        // taskProcessed.addEventListener("click", (event) => {
+        //     console.log('event print:', event)
+        // })
+
+
+        function addElement(name, content) {
+            //1) On crée l'élément à ajouter
+            let nouvelElement = document.createElement(name)
+            //2) On donne la valeur à l'élément à ajouter
+            nouvelElement.innerText = content
+            //3) On ajoute l'élément à la page (ici, ajouté directement au body)
+            document.body.append(nouvelElement)
+        }
+
+
+        function Page(props) {
+            console.log("props dans page: ", props)
+            let componentTask = props.tasks.map(task => {
+                console.log("task après map: ", task)
+                return (
+                    <Tasks props={task} />
+                )
+            })
+            console.log("component task (dans Page: ", componentTask)
+            return (
+                <div>
+                    {componentTask}
+                </div>
+            )
+        }
+
+
+        // Données insérées via la le paramètre 'props' (props -> properties)
+        function Tasks({ props }) {
+            console.log("props dans Task: ", props)
+
+            return (
+                <div>
+                    <form>
+                        <input type="text" value={props.id_task} readonly></input>
+                        <input type="text" value={props.task_status}></input>
+                        <input type="text" value={props.task_name}></input>
+                        <input type="text" value={props.task_description}></input>
+                    </form>
+                </div>
+            )
+        }
+
+        //Conversion des status de la BDD pour l'affichage
+        function ConvertTaskStatus(taskStatus) {
+            switch (taskStatus) {
+                case 0:
+                    return 'Achieved'
+                case 1:
+                    return 'In Progress'
+                case 2:
+                    return 'Cancelled'
+                default:
+                    return 'Not defined'
+            }
+        }
+
+
+
+        //Afficher toutes les tâches
+        fetch("/get-all-tasks-json")
+            .then(function (response) {
+                console.log("réponse requete: ", response)
+                return response.json()
+            }).then(function (json) {
+                console.log("json  du fetch est", json)
+                //Fonction qui permet d'afficher le rendu à la fin
+                //Avec les fonction assynchrone, essayer d'identifier les consoles.log qui apparaissent après ceux prévus.
+                let domContainer = document.getElementById('todo-elements-react');
+                ReactDOM.render(
+                    // <Page tasks={taskdata} />,
+                    <Page tasks={json} />,
+                    domContainer
+                );
+            })
+
+
+        //Afficher toutes les tâches en cours
+        // fetch("/get-remaining-tasks-json")
+        //     .then(function (response) {
+        //         console.log("réponse requete: ", response)
+        //         return response.json()
+        //     }).then(function (json) {
+        //         console.log("json  du fetch est", json)
+        //         //Fonction qui permet d'afficher le rendu à la fin
+        //         //Avec les fonction assynchrone, essayer d'identifier les consoles.log qui apparaissent après ceux prévus.
+        //         let domContainer = document.getElementById('todo-elements-react');
+        //         ReactDOM.render(
+        //             // <Page tasks={taskdata} />,
+        //             <Page tasks={json} />,
+        //             domContainer
+        //         );
+        //     })
+
+    </script>
+
+</body>
+
+</html>
