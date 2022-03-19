@@ -17,7 +17,7 @@ Ce projet a pour but d'aider à vous organisant en vous proposant une Todo list 
 
 ### 1) Téléchargement du projet
 
-Les projet est téléchargeable sur Github : [LIEN_GIT]
+Les projet est téléchargeable via le lien suivant : [https://github.com/Ptiga/Todo-list.git](https://github.com/Ptiga/Todo-list.git)
 
 
 ### 2) Installation du projet
@@ -29,14 +29,14 @@ Décompressez le projet téléchargé dans le dossier de votre choix.
 
 **Node JS**
 
-Téléchargez Node à l'adresse suivante: https://nodejs.org/en/download/
+Téléchargez Node [en cliquant ici](https://nodejs.org/en/download/)
 Puis, installez-le.
 
 Ouvrez ensuite votre invite de commande dans le dossier du projet* pour les étapes suivantes.
 
 *2 manières de faire:
-* 1-tapez 'cmd' dans la barre d'adresse du dossier contenant le projet
-* 2-dans la barre de recherche de Windows tapez 'cmd' puis, dans l'invite de commande 'cd adresse_complete_vers_repertoire_projet\ 
+1. tapez 'cmd' dans la barre d'adresse du dossier contenant le projet
+2. dans la barre de recherche de Windows tapez 'cmd' puis, dans l'invite de commande 'cd adresse_complete_vers_repertoire_projet\ 
     (si, par exemple, votre projet se trouve à l'adresse suivante: C:\MesDocuments\Outils\Todolist\ vous devrez taper dans l'invite de commande : 'cd C:\MesDocuments\Outils\Todolist\') 
 
 
@@ -47,7 +47,7 @@ dans l'invite de commande, tapez la commande suivante pour installer NPM:
 npm install -g npm
 ```
 
-En cas de besoin, voici le lien vers la doc npm : https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+En cas de besoin, voici [lien vers la doc npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 
 **Express**
@@ -57,8 +57,7 @@ Toujours dans l'invite de commande, tapez la commande:
 npm install express --save
 ```
 
-Lien vers la doc : https://expressjs.com/fr/starter/installing.html
-
+[Lien vers la doc](https://expressjs.com/fr/starter/installing.html)
 
 /!\ conservez la fenêtre d'invite de commande ouverte, elle sera nécessaire pour lancer le serveur.
 
@@ -153,11 +152,12 @@ node gestiontaches.js
 
 Le serveur démarre et vous indique, en cas de succès, le message suivant : 'Todolist app listening on port 3000'
 
-Dans votre navigateur préféré, saisissez l'adresse suivante : http://localhost:3000/
+Dans votre navigateur préféré, saisissez l'adresse suivante : [http://localhost:3000/](http://localhost:3000/)
 
 Vous êtes désormais sur l'interface de l'outil.
 
 
 **Auteur**: Aurélien
-**Version**: 0
+
+**Version**: 0.1
 

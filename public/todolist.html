@@ -46,17 +46,24 @@
 
     </div>
 
+
+
     <div class="row">
 
+
+
         <div class="col-6 boutonMainMenu">
-            <form method="get" formaction="/get-all-tasks-json" enctype="application/x-www-form-urlencoded">
+            <!-- <form method="get" formaction="/get-all-tasks-json" enctype="application/x-www-form-urlencoded">
                 <input id="btn-display-all" class="btn btn-default" type="submit" value="Show all tasks">
-            </form>
+            </form> -->
+            <button onclick="retrieveAllTasks()">Display all tasks</button>
         </div>
         <div class="col-6 boutonMainMenu">
-            <form method="get" action="/get-remaining-tasks-json" enctype="application/x-www-form-urlencoded">
-                <input id="btn-display-remlaining" class="btn btn-default" type="submit" value="Show remaining tasks" disabled="disabled">
-            </form>
+            <!-- <form method="get" action="/get-remaining-tasks-json" enctype="application/x-www-form-urlencoded">
+                <input id="btn-display-remlaining" class="btn btn-default" type="submit" value="Show remaining tasks"
+                    disabled="disabled">
+            </form> -->
+            <button onclick="retrieveremainingTasks()">Display remaining tasks</button>
         </div>
     </div>
     <div class="todo-board-react">
@@ -69,27 +76,32 @@
 
     <!-- l'inscription text/babel va permettre de traduire le html en JS -->
     <script type="text/babel">
-
+        
         // taskProcessed = document.getElementById("btn-display-all")
         // taskProcessed.addEventListener("click", (event) => {
         //     console.log('event print:', event)
         // })
 
 
-        function addElement(name, content) {
-            //1) On crée l'élément à ajouter
-            let nouvelElement = document.createElement(name)
-            //2) On donne la valeur à l'élément à ajouter
-            nouvelElement.innerText = content
-            //3) On ajoute l'élément à la page (ici, ajouté directement au body)
-            document.body.append(nouvelElement)
-        }
+        // function addElement(name, content) {
+        //     //1) On crée l'élément à ajouter
+        //     let nouvelElement = document.createElement(name)
+        //     //2) On donne la valeur à l'élément à ajouter
+        //     nouvelElement.innerText = content
+        //     //3) On ajoute l'élément à la page (ici, ajouté directement au body)
+        //     document.body.append(nouvelElement)
+        // }
 
 
         function Page(props) {
             console.log("props dans page: ", props)
             let componentTask = props.tasks.map(task => {
                 console.log("task après map: ", task)
+                // TODO: essayer de rajouter des attribut pour ID dynamiques
+                // let testadd = 'test'+task['id_task']
+                // console.log("test ajout: ", testadd)
+                // task.push({test: "lala"})
+                // console.log("task après test d'ajout: ", task)
                 return (
                     <Tasks props={task} />
                 )
@@ -104,23 +116,65 @@
 
 
         // Données insérées via la le paramètre 'props' (props -> properties)
+        // On va construire la liste à partir des éléments du json
         function Tasks({ props }) {
             console.log("props dans Task: ", props)
+            
+            //On On détermine les ID des inputs
+            let taskNumId = 'task' + props.id_task
+            let buttonName = 'Update task ' + props.id_task
+            let taskStatusId = 'taskStatus' + props.id_task
+            let taskStatusConverted = convertTaskStatus(props.task_status)
+            let taskIdentificationId = 'taskId' + props.id_task
+            let taskNameId = 'taskName' + props.id_task
+            let taskDescriptionId = 'taskDescription' + props.id_task
 
             return (
-                <div>
-                    <form>
-                        <input type="text" value={props.id_task} readonly></input>
-                        <input type="text" value={props.task_status}></input>
-                        <input type="text" value={props.task_name}></input>
-                        <input type="text" value={props.task_description}></input>
-                    </form>
-                </div>
+                <form method="post" id={taskNumId} action="/update-task" enctype="application/x-www-form-urlencoded">
+                    <div className="row liste-elements">
+                        <div className="Col-2 list-button button-update">
+                            <button type="submit" className="btn btn-primary">{buttonName}</button>
+                        </div>
+                        <div className="col-2">
+                            <div className="form-floating liste-elements-form-elem">
+                                <select className="form-select task-detailled-element" required id={taskStatusId} name="taskStatus" aria-label="Floating label select example">
+                                    <option selected>{props.task_status}</option>
+                                    <option>In Progress</option>
+                                    <option>Achieved</option>
+                                    <option>Cancelled</option>
+                                    <option>Delete task</option>
+                                </select>
+                                <label for={taskStatusId}>Task status</label>
+                            </div>
+                        </div>
+                        
+                        <div className="col-2 d-none">
+                            <div className="form-floating liste-elements-form-elem">
+                                <input type="text" className="form-control task-detailled-element" name="taskId" id={taskIdentificationId} value={props.id_task} readonly></input>
+                                <label for={taskIdentificationId}>Task ID</label>
+                            </div>
+                        </div>
+                        <div className="col-2">
+                            <div className="form-floating">
+                                <input type="text" className="form-control task-detailled-element taskName" required name="taskName" id={taskNameId} placeholder="task name" defaultValue={props.task_name}></input>
+                                <label for={taskNameId}>Task name</label>
+                            </div>
+                        </div>
+                        <div className="col-4">
+                            <div className="form-floating taskDescription-React taskDescription${id}">
+                                <input type="text" className="form-control task-detailled-element" name="taskDescription" id={taskDescriptionId} placeholder="task description" defaultValue={props.task_description}></input>
+                                <label for={taskDescriptionId}>Task description</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
             )
         }
 
         //Conversion des status de la BDD pour l'affichage
-        function ConvertTaskStatus(taskStatus) {
+        function convertTaskStatus(taskStatus) {
+            console.log("taskstatus envoyé: ", taskStatus)
             switch (taskStatus) {
                 case 0:
                     return 'Achieved'
@@ -135,8 +189,29 @@
 
 
 
+
         //Afficher toutes les tâches
-        fetch("/get-all-tasks-json")
+        function retrieveAllTasks() {
+            fetch("/get-all-tasks-json")
+                .then(function (response) {
+                    console.log("réponse requete: ", response)
+                    return response.json()
+                }).then(function (json) {
+                    console.log("json  du fetch est", json)
+                    //Fonction qui permet d'afficher le rendu à la fin
+                    //Avec les fonction assynchrone, essayer d'identifier les consoles.log qui apparaissent après ceux prévus.
+                    let domContainer = document.getElementById('todo-elements-react');
+                    ReactDOM.render(
+                        // <Page tasks={taskdata} />,
+                        <Page tasks={json} />,
+                        domContainer
+                    );
+                })
+        }
+
+        //Afficher toutes les tâches en cours
+        function retrieveremainingTasks(){
+            fetch("/get-remaining-tasks-json")
             .then(function (response) {
                 console.log("réponse requete: ", response)
                 return response.json()
@@ -151,24 +226,8 @@
                     domContainer
                 );
             })
+        }
 
-
-        //Afficher toutes les tâches en cours
-        // fetch("/get-remaining-tasks-json")
-        //     .then(function (response) {
-        //         console.log("réponse requete: ", response)
-        //         return response.json()
-        //     }).then(function (json) {
-        //         console.log("json  du fetch est", json)
-        //         //Fonction qui permet d'afficher le rendu à la fin
-        //         //Avec les fonction assynchrone, essayer d'identifier les consoles.log qui apparaissent après ceux prévus.
-        //         let domContainer = document.getElementById('todo-elements-react');
-        //         ReactDOM.render(
-        //             // <Page tasks={taskdata} />,
-        //             <Page tasks={json} />,
-        //             domContainer
-        //         );
-        //     })
 
     </script>
 
